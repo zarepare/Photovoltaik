@@ -136,6 +136,101 @@ main {
     transform: translateY(0);
 }
 
+.secondary-btn {
+    width: 100%;
+    padding: 8px 16px;
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.secondary-btn:hover {
+    background: #e0e0e0;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.export-btn {
+    flex: 1;
+    padding: 10px 16px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.export-btn:hover {
+    background: #45a049;
+}
+
+.export-btn:last-child {
+    background: #2196F3;
+}
+
+.export-btn:last-child:hover {
+    background: #1976D2;
+}
+
+/* Obstacle List */
+.obstacle-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.obstacle-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+}
+
+.obstacle-item select,
+.obstacle-item input {
+    padding: 4px 6px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 0.8rem;
+}
+
+.obstacle-item input {
+    width: 60px;
+}
+
+.obstacle-item select {
+    width: 90px;
+}
+
+.obstacle-item .remove-obstacle {
+    padding: 4px 8px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+.obstacle-item .remove-obstacle:hover {
+    background: #d32f2f;
+}
+
 /* Output Section */
 .output-section {
     background: white;
@@ -232,6 +327,14 @@ main {
 .color-box.anchor {
     background: #ff9800;
     border-radius: 50%;
+}
+
+.color-box.obstacle {
+    background: #795548;
+}
+
+.color-box.shading {
+    background: rgba(0, 0, 0, 0.3);
 }
 
 /* Footer */
