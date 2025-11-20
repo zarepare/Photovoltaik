@@ -198,6 +198,12 @@ class PVLayoutCalculator {
                     moduleWidth, moduleHeight, moduleSpacing, calculatedRowSpacing, walkwayWidth
                 ));
                 break;
+            case 'rahmen':
+                ({ modules, walkways } = this.calculateRahmenLayout(
+                    availableWidth, availableLength, edgeDistance,
+                    moduleWidth, moduleHeight, moduleSpacing, calculatedRowSpacing, walkwayWidth
+                ));
+                break;
         }
 
         // Remove modules that overlap with obstacles
@@ -389,6 +395,50 @@ class PVLayoutCalculator {
         return { modules, walkways, anchors };
     }
 
+    calculateRahmenLayout(availableWidth, availableLength, edgeDistance, moduleWidth, moduleHeight, moduleSpacing, rowSpacing, walkwayWidth) {
+        const modules = [];
+        const walkways = [];
+
+        // Rahmen form: rectangular frame at ~2.5m (250cm) from the roof edge
+        const frameDistance = 250; // Distance from edge to safety frame
+
+        // Calculate frame coordinates
+        const frameLeft = edgeDistance + frameDistance;
+        const frameRight = edgeDistance + availableWidth - frameDistance;
+        const frameTop = edgeDistance + frameDistance;
+        const frameBottom = edgeDistance + availableLength - frameDistance;
+
+        // Create rectangular frame walkway (closed rectangle)
+        walkways.push({
+            type: 'rahmen',
+            points: [
+                { x: frameLeft, y: frameTop },
+                { x: frameRight, y: frameTop },
+                { x: frameRight, y: frameBottom },
+                { x: frameLeft, y: frameBottom },
+                { x: frameLeft, y: frameTop } // Close the rectangle
+            ],
+            width: walkwayWidth
+        });
+
+        // Place modules inside the frame
+        const innerWidth = frameRight - frameLeft - walkwayWidth;
+        const innerHeight = frameBottom - frameTop - walkwayWidth;
+
+        if (innerWidth > 0 && innerHeight > 0) {
+            this.placeModulesInArea(
+                modules,
+                frameLeft + walkwayWidth / 2,
+                frameTop + walkwayWidth / 2,
+                innerWidth,
+                innerHeight,
+                moduleWidth, moduleHeight, moduleSpacing, rowSpacing
+            );
+        }
+
+        return { modules, walkways };
+    }
+
     placeModulesInArea(modules, startX, startY, areaWidth, areaHeight, moduleWidth, moduleHeight, spacingX, spacingY) {
         if (areaWidth <= 0 || areaHeight <= 0) return;
 
@@ -513,9 +563,9 @@ class PVLayoutCalculator {
             });
         }
 
-        // Draw walkways
+        // Draw walkways (thin lines to represent safety rails/ropes)
         ctx.strokeStyle = '#f44336';
-        ctx.lineWidth = params.walkwayWidth * this.scale;
+        ctx.lineWidth = 3; // Fixed thin line width for safety system
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
 
@@ -524,8 +574,7 @@ class PVLayoutCalculator {
             if (walkway.type === 'line') {
                 ctx.moveTo(offsetX + walkway.start.x * this.scale, offsetY + walkway.start.y * this.scale);
                 ctx.lineTo(offsetX + walkway.end.x * this.scale, offsetY + walkway.end.y * this.scale);
-            } else if (walkway.type === 'omega') {
-                ctx.lineWidth = walkway.width * this.scale;
+            } else if (walkway.type === 'omega' || walkway.type === 'rahmen') {
                 ctx.moveTo(offsetX + walkway.points[0].x * this.scale, offsetY + walkway.points[0].y * this.scale);
                 for (let i = 1; i < walkway.points.length; i++) {
                     ctx.lineTo(offsetX + walkway.points[i].x * this.scale, offsetY + walkway.points[i].y * this.scale);
