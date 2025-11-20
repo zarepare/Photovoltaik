@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PV-Modul Dachauslegung</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PV-Modul Dachauslegung</h1>
+            <p>Automatische Auslegung von Photovoltaikmodulen mit Absturzsicherung</p>
+        </header>
+
+        <main>
+            <section class="input-section">
+                <h2>Eingabeparameter</h2>
+
+                <div class="input-group">
+                    <h3>Dachmasse</h3>
+                    <div class="input-row">
+                        <label for="roofWidth">Dachbreite (cm):</label>
+                        <input type="number" id="roofWidth" value="2000" min="100" step="10">
+                    </div>
+                    <div class="input-row">
+                        <label for="roofLength">Dachlänge (cm):</label>
+                        <input type="number" id="roofLength" value="1500" min="100" step="10">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <h3>Modulmasse</h3>
+                    <div class="input-row">
+                        <label for="moduleWidth">Modulbreite (cm):</label>
+                        <input type="number" id="moduleWidth" value="100" min="10" step="1">
+                    </div>
+                    <div class="input-row">
+                        <label for="moduleHeight">Modulhöhe (cm):</label>
+                        <input type="number" id="moduleHeight" value="170" min="10" step="1">
+                    </div>
+                    <div class="input-row">
+                        <label for="modulePower">Modulleistung (Wp):</label>
+                        <input type="number" id="modulePower" value="400" min="100" step="10">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <h3>Abstände</h3>
+                    <div class="input-row">
+                        <label for="edgeDistance">Randabstand (cm):</label>
+                        <input type="number" id="edgeDistance" value="60" min="60" step="5">
+                        <span class="hint">min. 60 cm</span>
+                    </div>
+                    <div class="input-row">
+                        <label for="moduleSpacing">Modulabstand (cm):</label>
+                        <input type="number" id="moduleSpacing" value="25" min="25" step="5">
+                        <span class="hint">min. 25 cm</span>
+                    </div>
+                    <div class="input-row">
+                        <label for="walkwayWidth">Gangbreite (cm):</label>
+                        <input type="number" id="walkwayWidth" value="250" min="250" step="10">
+                        <span class="hint">min. 250 cm</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <h3>Absturzsicherung</h3>
+                    <div class="input-row">
+                        <label for="safetyType">Sicherungsform:</label>
+                        <select id="safetyType">
+                            <option value="omega">Omega-Form</option>
+                            <option value="h">H-Form</option>
+                            <option value="i">I-Form</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="calculateBtn" class="primary-btn">Auslegung berechnen</button>
+            </section>
+
+            <section class="output-section">
+                <h2>Ergebnis</h2>
+
+                <div class="results-panel">
+                    <div class="result-item">
+                        <span class="label">Anzahl Module:</span>
+                        <span class="value" id="moduleCount">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Gesamtleistung:</span>
+                        <span class="value" id="totalPower">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Belegte Fläche:</span>
+                        <span class="value" id="coveredArea">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Flächennutzung:</span>
+                        <span class="value" id="areaUsage">-</span>
+                    </div>
+                </div>
+
+                <div class="visualization">
+                    <canvas id="roofCanvas"></canvas>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <span class="color-box module"></span>
+                        <span>PV-Module</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="color-box walkway"></span>
+                        <span>Sicherheitsgang</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="color-box edge"></span>
+                        <span>Randabstand</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="color-box anchor"></span>
+                        <span>Ankerpunkt (I-Form)</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>PV-Modul Dachauslegung - MVP Version</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
